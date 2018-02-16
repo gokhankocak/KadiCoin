@@ -8,7 +8,9 @@ Operating System:
 [Ubuntu Server 16.04.3 LTS](https://www.ubuntu.com/download/server)
 
 **Install Prerequisities**
+
 sudo apt-get -y update
+
 sudo apt-get -y upgrade
 
 \# You may need to reboot your system after upgrade
