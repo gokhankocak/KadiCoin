@@ -63,17 +63,21 @@ server=1<br>
 \# datadir=/data<br>
 
 \# Run this node on the Bitcoin Test Network.<br>
-testnet=1<br>
+\# testnet=1<br>
 
 \# Run this node on its own independent test network.<br>
-\# regtest=1<br>
+regtest=1<br>
 
 \# Username for JSON-RPC connections<br>
 rpcuser=kadicoinrpcuser<br>
 
 \# Password for JSON-RPC connections<br>
-rpcpassword=PgJBtsFHuZ383n8.kp3M7g<br>
+rpcpassword=Put Some Strong Password Here<br>
 
 **Run KadiCoind**<br><br>
+\# Run KadiCoind and see its messages on your console<br>
 KadiCoind -printtoconsole<br>
+\# Run KadiCoind as a daemon (service)<br>
+KadiCoind -daemon<br>
+
 
