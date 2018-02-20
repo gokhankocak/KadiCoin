@@ -427,7 +427,7 @@ bool openBitcoinConf()
     
     configFile.close();
     
-    /* Open KadiCoin.conf with the associated application */
+    /* Open bitcoin.conf with the associated application */
     return QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathConfig)));
 }
 

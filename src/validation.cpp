@@ -18,6 +18,7 @@
 #include "fs.h"
 #include "hash.h"
 #include "init.h"
+#include "netbase.h"
 #include "policy/fees.h"
 #include "policy/policy.h"
 #include "policy/rbf.h"
@@ -1071,7 +1072,10 @@ bool IsInitialBlockDownload()
         return true;
     if (chainActive.Tip()->nChainWork < UintToArith256(chainParams.GetConsensus().nMinimumChainWork))
         return true;
-    if (chainActive.Tip()->GetBlockTime() < (GetTime() - nMaxTipAge))
+    if (fSkipHardforkIBD && chainActive.Tip()->nHeight + 1 >= (int)chainParams.GetConsensus().KDCHeight)
+        return false;
+    int64_t target_time = fKDCBootstrapping ? (int64_t)chainParams.GetConsensus().BitcoinPostforkTime : GetTime();
+    if (chainActive.Tip()->GetBlockTime() < (target_time - nMaxTipAge))
         return true;
     LogPrintf("Leaving InitialBlockDownload (latching to false)\n");
     latchToFalse.store(true, std::memory_order_relaxed);
@@ -3015,8 +3019,7 @@ static bool ContextualCheckBlock(const CBlock& block, CValidationState& state, c
     }
 
     if (nHeight >= consensusParams.KDCHeight &&
-        nHeight < consensusParams.KDCHeight + consensusParams.KDCPremineWindow &&
-        consensusParams.KDCPremineEnforceWhitelist)
+        nHeight < consensusParams.KDCHeight + consensusParams.KDCPremineWindow)
     {
         if (block.vtx[0]->vout.size() != 1) {
             return state.DoS(

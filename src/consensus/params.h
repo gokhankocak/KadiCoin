@@ -51,6 +51,9 @@ struct Params {
     /** Premining blocks for Bitcoin GPU hard fork **/
     int KDCPremineWindow;
     bool KDCPremineEnforceWhitelist;
+    /** The first post-fork block of Bitcoin blockchain. **/
+    uint256 BitcoinPostforkBlock;
+    uint32_t BitcoinPostforkTime;
     /**
      * Minimum blocks including miner confirmation of the total of 2016 blocks in a retargeting period,
      * (nPowTargetTimespan / nPowTargetSpacing) which is also used for BIP9 deployments.

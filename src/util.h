@@ -195,8 +195,6 @@ inline bool IsSwitchChar(char c)
 
 class ArgsManager
 {
-private:
-    void ReadConfigFileInternal(const std::string& confPath);
 protected:
     CCriticalSection cs_args;
     std::map<std::string, std::string> mapArgs;

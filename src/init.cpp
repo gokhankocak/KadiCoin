@@ -418,6 +418,8 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-whitelist=<IP address or network>", _("Whitelist peers connecting from the given IP address (e.g. 1.2.3.4) or CIDR notated network (e.g. 1.2.3.0/24). Can be specified multiple times.") +
         " " + _("Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway"));
     strUsage += HelpMessageOpt("-maxuploadtarget=<n>", strprintf(_("Tries to keep outbound traffic under the given target (in MiB per 24h), 0 = no limit (default: %d)"), DEFAULT_MAX_UPLOAD_TARGET));
+    strUsage += HelpMessageOpt("-bootstrap", _("Enables KadiCoin bootstrap mode. Allows KDC client to connect to Bitcoin p2p network to download blockahin history."));
+    strUsage += HelpMessageOpt("-skiphardforkibd", _("Skip Initial Block Download when reaching hardfork block."));
 
 #ifdef ENABLE_WALLET
     strUsage += CWallet::GetWalletHelpString(showDebug);
@@ -521,8 +523,8 @@ std::string HelpMessage(HelpMessageMode mode)
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/BTCGPU/BTCGPU>";
-    const std::string URL_WEBSITE = "<https://KadiCoin.org>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/bitcoin/bitcoin>";
+    const std::string URL_WEBSITE = "<https://bitcoincore.org>";
 
     return CopyrightHolders(strprintf(_("Copyright (C) %i-%i"), 2009, COPYRIGHT_YEAR) + " ") + "\n" +
            "\n" +
@@ -1366,6 +1368,9 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     if (gArgs.IsArgSet("-maxuploadtarget")) {
         nMaxOutboundLimit = gArgs.GetArg("-maxuploadtarget", DEFAULT_MAX_UPLOAD_TARGET)*1024*1024;
     }
+
+    fKDCBootstrapping = gArgs.GetBoolArg("-bootstrap", false);
+    fSkipHardforkIBD = gArgs.GetBoolArg("-skiphardforkibd", false);
 
     // ********************************************************* Step 7: load block chain
 
